@@ -1,0 +1,29 @@
+{
+  "name": "findr",
+  "version": "1.0.0",
+  "description": "An Electron Application that lets you find places",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./main.js",
+    "build": "...",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mykalmachon/findr.git"
+  },
+  "keywords": [
+    "Google",
+    "Maps API",
+    "Electron"
+  ],
+  "author": "Mykal Machon",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/mykalmachon/findr/issues"
+  },
+  "homepage": "https://github.com/mykalmachon/findr#readme",
+  "devDependencies": {
+    "electron": "^4.0.0"
+  }
+}
