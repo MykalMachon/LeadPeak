@@ -4,9 +4,11 @@
   "description": "An Electron Application that lets you find places",
   "main": "index.js",
   "scripts": {
-    "start": "electron ./main.js",
-    "build": "...",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron ./src/main.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,20 @@
     "url": "https://github.com/mykalmachon/findr/issues"
   },
   "homepage": "https://github.com/mykalmachon/findr#readme",
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-ace": "^6.1.4",
+    "react-dom": "^16.4.2",
+    "react-scripts": "^2.1.1",
+    "styled-components": "^3.4.5"
+  },
   "devDependencies": {
     "electron": "^4.0.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
