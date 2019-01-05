@@ -41,17 +41,15 @@ app.on('activate', function() {
   }
 });
 
-// ? Listeners from the renderer
+// * Listeners from the renderer
 
 ipcMain.on('map-data-req', (event, arg) => {
   const { searchArea, placeCategory } = arg;
-  console.log(arg);
   searchGoogle(searchArea, placeCategory);
 });
 
 function searchGoogle(searchArea, placeCategory) {
   maps.searchGoogle(searchArea, placeCategory).then(data => {
-    console.log(data);
     mainWindow.webContents.send('maps-data-res', data);
   });
 }

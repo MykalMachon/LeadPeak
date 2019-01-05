@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 
 import './global.css';
+import ResultsList from './components/ResultsList';
 
 const { ipcRenderer } = window.require('electron');
 
 class App extends Component {
   constructor() {
     super();
+    this.state = {
+      results: []
+    };
     // * IPC Listeners
     ipcRenderer.on('maps-data-res', (event, data) => {
-      console.log(data);
+      this.setState({
+        results: data
+      });
+      this.searchSuccess();
     });
   }
 
@@ -43,51 +50,68 @@ class App extends Component {
     });
   };
 
+  searchSuccess = () => {
+    this.setState({
+      inSearch: false
+    });
+    const submitButton = document.querySelector('#submit');
+    submitButton.classList.remove('is-loading');
+    submitButton.disabled = false;
+  };
+
   render() {
     return (
-      <section class="section">
-        <div class="container">
-          <div className="field is-grouped columns">
-            <div className="control column is-two-thirds">
-              <label class="label">Search Area</label>
-              <input
-                id="searchArea"
-                type="text"
-                className="input"
-                placeholder="Area to search"
-                onChange={this.handleInput}
-              />
+      <div>
+        <section class="section">
+          <div class="container">
+            <div className="field is-grouped columns">
+              <div className="control column is-two-thirds">
+                <label class="label">Search Area</label>
+                <input
+                  id="searchArea"
+                  type="text"
+                  className="input"
+                  placeholder="Area to search"
+                  onChange={this.handleInput}
+                />
+              </div>
+              <div className="control column is-one-third">
+                <label class="label">Place Category</label>
+                <input
+                  id="placeCategory"
+                  type="text"
+                  className="input"
+                  placeholder="Type of thing to find"
+                  onChange={this.handleInput}
+                />
+              </div>
             </div>
-            <div className="control column is-one-third">
-              <label class="label">Place Category</label>
-              <input
-                id="placeCategory"
-                type="text"
-                className="input"
-                placeholder="Type of thing to find"
-                onChange={this.handleInput}
-              />
-            </div>
-          </div>
 
-          <div class="field is-grouped">
-            <div class="control">
-              <button
-                onClick={this.submitSearch}
-                class="button is-link"
-                id="submit"
-              >
-                Submit
-              </button>
-            </div>
-            <div class="control">
-              <button onClick={this.clearFields} class="button is-text">
-                Cancel
-              </button>
+            <div class="field is-grouped">
+              <div class="control">
+                <button
+                  onClick={this.submitSearch}
+                  class="button is-link"
+                  id="submit"
+                >
+                  Submit
+                </button>
+              </div>
+              <div class="control">
+                <button onClick={this.clearFields} class="button is-text">
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+        <section>
+          <ResultsList
+            results={this.state.results}
+            loading={this.state.inSearch}
+          />
+        </section>
+      </div>
     );
   }
 }
