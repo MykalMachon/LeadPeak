@@ -2,13 +2,24 @@ import React, { Component } from 'react';
 
 import './global.css';
 
+const { ipcRenderer } = window.require('electron');
+
 class App extends Component {
+  constructor() {
+    super();
+    // * IPC Listeners
+    ipcRenderer.on('maps-data-res', (event, data) => {
+      console.log(data);
+    });
+  }
+
   handleInput = event => {
     this.setState({
       [event.currentTarget.id]: event.currentTarget.value
     });
-    console.log(this.state);
   };
+
+  // * UI Inputs
 
   submitSearch = event => {
     event.preventDefault();
@@ -18,6 +29,7 @@ class App extends Component {
       inSearch: true
     });
     // TODO Use IPC listener to make call to GoogleAPI
+    ipcRenderer.send('map-data-req', this.state);
   };
 
   clearFields = event => {
@@ -37,9 +49,9 @@ class App extends Component {
         <div class="container">
           <div className="field is-grouped columns">
             <div className="control column is-two-thirds">
-              <label class="label">Search Location</label>
+              <label class="label">Search Area</label>
               <input
-                id="searchLocation"
+                id="searchArea"
                 type="text"
                 className="input"
                 placeholder="Area to search"

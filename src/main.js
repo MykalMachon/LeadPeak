@@ -1,9 +1,6 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, dialog } = require('electron');
-const fs = require('fs');
-const mapsApi = require('./maps/mapsApi');
-
-mapsApi.searchGoogle('chilliwack', 'car dealerships');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const maps = require('./maps/maps');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -44,40 +41,17 @@ app.on('activate', function() {
   }
 });
 
-// Open File
-function openFile() {
-  // Opens dialog looking for markdown files
-  const files = dialog.showOpenDialog(mainWindow, {
-    properties: ['openFile'],
-    filters: [
-      {
-        name: 'Markdown File',
-        extensions: ['md', 'markdown', 'txt']
-      }
-    ]
+// ? Listeners from the renderer
+
+ipcMain.on('map-data-req', (event, arg) => {
+  const { searchArea, placeCategory } = arg;
+  console.log(arg);
+  searchGoogle(searchArea, placeCategory);
+});
+
+function searchGoogle(searchArea, placeCategory) {
+  maps.searchGoogle(searchArea, placeCategory).then(data => {
+    console.log(data);
+    mainWindow.webContents.send('maps-data-res', data);
   });
-  // * checks if nothing is selected, if so return
-  if (!files) return;
-
-  // * Works with selected files
-  const file = files[0];
-  const fileContent = fs.readFileSync(file).toString();
-  mainWindow.webContents.send('new-file', fileContent);
-}
-
-//Open Directory
-function openDirectory() {
-  // Opens dialog looking for markdown files
-  const directory = dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory']
-  });
-  // * checks if nothing is selected, if so return
-  if (!directory) return;
-  const dir = directory[0];
-  mainWindow.webContents.send('new-dir', dir);
-}
-
-// Send Request to save file
-function saveFile() {
-  mainWindow.webContents.send('save-file', true);
 }
