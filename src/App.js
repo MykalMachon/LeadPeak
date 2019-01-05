@@ -30,6 +30,8 @@ class App extends Component {
 
   submitSearch = event => {
     event.preventDefault();
+    const clearButton = document.querySelector('#cancel');
+    clearButton.disabled = false;
     event.currentTarget.classList.add('is-loading');
     event.currentTarget.disabled = true;
     this.setState({
@@ -43,11 +45,12 @@ class App extends Component {
     event.preventDefault();
     const submitButton = document.querySelector('#submit');
     submitButton.classList.remove('is-loading');
-    submitButton.disabled = false;
-    const inputs = document.querySelectorAll('input');
+    const inputs = [...document.querySelectorAll('input')];
+    console.log(inputs);
     inputs.forEach(input => {
       input.value = '';
     });
+    this.setState({ results: [] });
   };
 
   searchSuccess = () => {
@@ -55,8 +58,10 @@ class App extends Component {
       inSearch: false
     });
     const submitButton = document.querySelector('#submit');
+    const exportButton = document.querySelector('#export');
     submitButton.classList.remove('is-loading');
     submitButton.disabled = false;
+    exportButton.disabled = false;
   };
 
   render() {
@@ -106,6 +111,8 @@ class App extends Component {
                     <button
                       onClick={this.clearFields}
                       className="button is-light"
+                      id="cancel"
+                      disabled
                     >
                       Cancel
                     </button>
@@ -115,7 +122,9 @@ class App extends Component {
               <div className="level-right" />
               <div className="field">
                 <div className="control">
-                  <button className="button is-text">Export Data</button>
+                  <button className="button is-text" id="export" disabled>
+                    Export Data
+                  </button>
                 </div>
               </div>
             </div>
