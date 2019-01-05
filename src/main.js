@@ -13,6 +13,9 @@ function createWindow() {
   //* Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
+  //* Take away the menu
+  // mainWindow.setMenu(null);
+
   //* Emitted when the window is closed.
   mainWindow.on('closed', function() {
     mainWindow = null;
