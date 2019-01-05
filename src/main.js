@@ -1,6 +1,9 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu, dialog } = require('electron');
 const fs = require('fs');
+const mapsApi = require('./maps/mapsApi');
+
+mapsApi.searchGoogle('chilliwack', 'car dealerships');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,7 +12,6 @@ let mainWindow;
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 953, height: 750, darkTheme: true });
   mainWindow.loadURL('http://localhost:3000');
-
 
   //* Open the DevTools.
   // mainWindow.webContents.openDevTools()
