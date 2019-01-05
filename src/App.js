@@ -62,11 +62,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <section class="section">
-          <div class="container">
+        <section className="section">
+          <div className="container">
             <div className="field is-grouped columns">
               <div className="control column is-two-thirds">
-                <label class="label">Search Area</label>
+                <label className="label">Search Area</label>
                 <input
                   id="searchArea"
                   type="text"
@@ -76,7 +76,7 @@ class App extends Component {
                 />
               </div>
               <div className="control column is-one-third">
-                <label class="label">Place Category</label>
+                <label className="label">Place Category</label>
                 <input
                   id="placeCategory"
                   type="text"
@@ -87,18 +87,18 @@ class App extends Component {
               </div>
             </div>
 
-            <div class="field is-grouped">
-              <div class="control">
+            <div className="field is-grouped">
+              <div className="control">
                 <button
                   onClick={this.submitSearch}
-                  class="button is-link"
+                  className="button is-link"
                   id="submit"
                 >
                   Submit
                 </button>
               </div>
-              <div class="control">
-                <button onClick={this.clearFields} class="button is-text">
+              <div className="control">
+                <button onClick={this.clearFields} className="button is-text">
                   Cancel
                 </button>
               </div>
@@ -106,10 +106,12 @@ class App extends Component {
           </div>
         </section>
         <section>
-          <ResultsList
-            results={this.state.results}
-            loading={this.state.inSearch}
-          />
+          <div className="container">
+            <ResultsList
+              results={this.state.results}
+              loading={this.state.inSearch}
+            />
+          </div>
         </section>
       </div>
     );
