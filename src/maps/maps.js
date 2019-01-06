@@ -16,7 +16,6 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
   const formattedSearchTerm = searchTerm.split(' ').join('+');
   const currQuery = `query=${formattedSearchTerm}`;
   const finalPostUrl = urlBuilder(currQuery);
-  console.log(finalPostUrl);
   return new Promise((resolve, reject) => {
     axios
       .get(finalPostUrl, {
@@ -30,3 +29,8 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
       });
   });
 };
+
+exports.searchMoreDetails = async (searchArea, placeCategory) => {
+  // TODO Search using the details API
+  // ! Should warn users of additional costs of doing so.
+}

@@ -9,7 +9,9 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      results: []
+      results: [],
+      inSearch: false,
+      searchComplete: false
     };
     // * IPC Listeners
     ipcRenderer.on('maps-data-res', (event, data) => {
@@ -30,10 +32,7 @@ class App extends Component {
 
   submitSearch = event => {
     event.preventDefault();
-    const clearButton = document.querySelector('#cancel');
-    clearButton.disabled = false;
     event.currentTarget.classList.add('is-loading');
-    event.currentTarget.disabled = true;
     this.setState({
       inSearch: true
     });
@@ -46,22 +45,19 @@ class App extends Component {
     const submitButton = document.querySelector('#submit');
     submitButton.classList.remove('is-loading');
     const inputs = [...document.querySelectorAll('input')];
-    console.log(inputs);
     inputs.forEach(input => {
       input.value = '';
     });
-    this.setState({ results: [] });
+    this.setState({ results: [], searchComplete: false });
   };
 
   searchSuccess = () => {
     this.setState({
-      inSearch: false
+      inSearch: false,
+      searchComplete: true
     });
     const submitButton = document.querySelector('#submit');
-    const exportButton = document.querySelector('#export');
     submitButton.classList.remove('is-loading');
-    submitButton.disabled = false;
-    exportButton.disabled = false;
   };
 
   render() {
@@ -112,7 +108,7 @@ class App extends Component {
                       onClick={this.clearFields}
                       className="button is-light"
                       id="cancel"
-                      disabled
+                      disabled={!this.state.searchComplete}
                     >
                       Cancel
                     </button>
@@ -122,7 +118,11 @@ class App extends Component {
               <div className="level-right" />
               <div className="field">
                 <div className="control">
-                  <button className="button is-text" id="export" disabled>
+                  <button
+                    className="button is-text"
+                    id="export"
+                    disabled={!this.state.searchComplete}
+                  >
                     Export Data
                   </button>
                 </div>
