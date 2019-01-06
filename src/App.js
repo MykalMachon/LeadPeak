@@ -14,7 +14,7 @@ class App extends Component {
       searchComplete: false
     };
 
-    // ? IPC LISTENERS : LISTEN FOR DATA FROM THE MAIN THREAD
+    // ? IPC LISTENERS : LISTENS FOR DATA FROM THE MAIN THREAD
 
     // * On Map Data Response from the main process this function is called
     ipcRenderer.on('maps-data-res', (event, data) => {
