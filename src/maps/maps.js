@@ -8,14 +8,18 @@ const BASE_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?';
 const API_KEY = process.env.GMAPS_API_KEY;
 
 const urlBuilder = query => {
+  // * Formats a simple Query URL for the places API
   return `${BASE_URL}${query}&fields=photos,formatted_address,name&key=${API_KEY}`;
 };
 
 exports.searchGoogle = async (searchArea, placeCategory) => {
+  // * Formats a Query from search terms
   const searchTerm = `${placeCategory} in ${searchArea}`;
   const formattedSearchTerm = searchTerm.split(' ').join('+');
   const currQuery = `query=${formattedSearchTerm}`;
   const finalPostUrl = urlBuilder(currQuery);
+
+  // * Returns a promise of the queries data
   return new Promise((resolve, reject) => {
     axios
       .get(finalPostUrl, {
@@ -33,4 +37,4 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
 exports.searchMoreDetails = async (searchArea, placeCategory) => {
   // TODO Search using the details API
   // ! Should warn users of additional costs of doing so.
-}
+};

@@ -13,7 +13,10 @@ class App extends Component {
       inSearch: false,
       searchComplete: false
     };
-    // * IPC Listeners
+
+    // ? IPC LISTENERS : LISTEN FOR DATA FROM THE MAIN THREAD
+
+    // * On Map Data Response from the main process this function is called
     ipcRenderer.on('maps-data-res', (event, data) => {
       this.setState({
         results: data
@@ -22,14 +25,16 @@ class App extends Component {
     });
   }
 
+  // ? COMPONENT SPECIFIC FUNCTIONS
+
+  // * Is called onChange for all text inputs, loads their values into state
   handleInput = event => {
     this.setState({
       [event.currentTarget.id]: event.currentTarget.value
     });
   };
 
-  // * UI Inputs
-
+  // * Is called when the submit button is pressed, initiates a search
   submitSearch = event => {
     event.preventDefault();
     event.currentTarget.classList.add('is-loading');
@@ -40,6 +45,7 @@ class App extends Component {
     ipcRenderer.send('map-data-req', this.state);
   };
 
+  // * Is called when the Cancel button is pressed, clears data and fields
   clearFields = event => {
     event.preventDefault();
     const submitButton = document.querySelector('#submit');
@@ -51,6 +57,7 @@ class App extends Component {
     this.setState({ results: [], searchComplete: false });
   };
 
+  // * Is called when the Cancel button is pressed, clears data and fields
   searchSuccess = () => {
     this.setState({
       inSearch: false,
