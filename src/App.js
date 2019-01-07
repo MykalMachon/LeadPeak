@@ -23,6 +23,12 @@ class App extends Component {
       });
       this.searchSuccess();
     });
+
+    // * On Export Completion from the main process this function is called
+    ipcRenderer.on('export-data-res', (event, data) => {
+      const submitButton = document.querySelector('#export');
+      submitButton.classList.remove('is-loading');
+    });
   }
 
   // ? COMPONENT SPECIFIC FUNCTIONS
@@ -65,6 +71,12 @@ class App extends Component {
     });
     const submitButton = document.querySelector('#submit');
     submitButton.classList.remove('is-loading');
+  };
+
+  exportData = event => {
+    event.preventDefault();
+    event.currentTarget.classList.add('is-loading');
+    ipcRenderer.send('export-data-req', this.state);
   };
 
   render() {
@@ -128,6 +140,7 @@ class App extends Component {
                   <button
                     className="button is-text"
                     id="export"
+                    onClick={this.exportData}
                     disabled={!this.state.searchComplete}
                   >
                     Export Data

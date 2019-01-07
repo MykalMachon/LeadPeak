@@ -1,5 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const fs = require('fs');
+const path = require('path');
+
+// ? IMPORT HELPER FILES
 const maps = require('./maps/maps');
+const exportData = require('./export/export');
 
 let mainWindow;
 
@@ -38,4 +43,27 @@ ipcMain.on('map-data-req', (event, arg) => {
   maps.searchGoogle(searchArea, placeCategory).then(data => {
     mainWindow.webContents.send('maps-data-res', data);
   });
+});
+
+// * On Export Request convert data to CSV and select a save location
+ipcMain.on('export-data-req', (event, arg) => {
+  const { results } = arg;
+  const csvData = exportData.exportBasicData(results);
+  // Allows the user to select where to save
+  const saveDirectory = dialog.showSaveDialog(mainWindow, {
+    title: 'Export Search Data',
+    defaultPath: path.join(app.getPath('documents'), '/*/exports.csv')
+  });
+  if (!saveDirectory) {
+    mainWindow.webContents.send('export-data-res', false);
+    return;
+  }
+  // Writes file to the selected file location
+  fs.writeFile(saveDirectory, csvData, function(err) {
+    if (err) {
+      mainWindow.webContents.send('export-data-res', false);
+      return console.log(err);
+    }
+  });
+  mainWindow.webContents.send('export-data-res', true);
 });
