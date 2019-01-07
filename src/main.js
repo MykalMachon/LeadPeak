@@ -42,6 +42,7 @@ ipcMain.on('map-data-req', (event, arg) => {
   const { searchArea, placeCategory } = arg;
   maps.searchGoogle(searchArea, placeCategory).then(data => {
     mainWindow.webContents.send('maps-data-res', data);
+    exportData.exportBasicData(data);
   });
 });
 
