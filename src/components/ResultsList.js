@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ResultCard from './ResultCard';
 
 export default class ResultsList extends Component {
   static propTypes = {
@@ -8,15 +9,15 @@ export default class ResultsList extends Component {
 
   render() {
     return (
-      <ul>
+      <div>
         {this.props.results.length > 0 ? (
           this.props.results.map((result, index) => {
-            return <li key={index}> {result.name}</li>;
+            return <ResultCard key={index} result={result} />;
           })
         ) : (
-          <li>There are no results</li>
+          <p>There are no results</p>
         )}
-      </ul>
+      </div>
     );
   }
 }

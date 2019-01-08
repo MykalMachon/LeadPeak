@@ -33,6 +33,5 @@ exports.exportBasicData = data => {
   });
   const jsonParser = new JsonToCSVParser({ headings });
   const csv = jsonParser.parse(rows);
-
   return csv;
 };
