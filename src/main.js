@@ -56,7 +56,7 @@ ipcMain.on('export-data-req', (event, arg) => {
   // Allows the user to select where to save
   const saveDirectory = dialog.showSaveDialog(mainWindow, {
     title: 'Export Search Data',
-    defaultPath: path.join(app.getPath('documents'), '/*/exports.csv')
+    defaultPath: path.join(app.getPath('documents'), '/*/Findr Export.csv')
   });
   if (!saveDirectory) {
     mainWindow.webContents.send('export-data-res', false);

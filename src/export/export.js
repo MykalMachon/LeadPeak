@@ -23,12 +23,12 @@ exports.exportBasicData = data => {
       email: '',
       'Phone Number': '',
       'Mobile Number': '',
-      'Company Name': obj.name,
-      Street: locArr[0],
-      City: locArr[1],
-      Province: locArr[2].slice(0, 3),
-      Country: locArr[3],
-      'Postal Code': locArr[2].slice(3)
+      'Company Name': obj.name.trim(),
+      Street: locArr[0].trim(),
+      City: locArr[1].trim(),
+      Province: locArr[2].slice(0, 3).trim(),
+      Country: locArr[3].trim(),
+      'Postal Code': locArr[2].slice(3).trim()
     });
   });
   const jsonParser = new JsonToCSVParser({ headings });
