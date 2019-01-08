@@ -26,7 +26,7 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
         method: 'get'
       })
       .then(res => {
-        resolve(res.data.results);
+        resolve(res.data);
       })
       .catch(err => {
         reject(err);

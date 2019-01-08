@@ -18,9 +18,12 @@ class App extends Component {
 
     // * On Map Data Response from the main process this function is called
     ipcRenderer.on('maps-data-res', (event, data) => {
+      const { results, next_page_token } = data;
       this.setState({
-        results: data
+        results: results,
+        nextPageToken: next_page_token
       });
+
       this.searchSuccess();
     });
 
@@ -150,10 +153,11 @@ class App extends Component {
             </div>
           </div>
         </section>
-        <section class="section">
+        <section className="section">
           <div className="container">
             <ResultsList
               results={this.state.results}
+              nextPageToken={this.state.nextPageToken}
               loading={this.state.inSearch}
             />
           </div>
