@@ -34,7 +34,6 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
   });
 };
 
-exports.searchMoreDetails = async (searchArea, placeCategory) => {
-  // TODO Search using the details API
-  // ! Should warn users of additional costs of doing so.
+exports.searchMoreDetails = async results => {
+  const { place_id } = results;
 };
