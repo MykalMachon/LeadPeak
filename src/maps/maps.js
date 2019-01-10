@@ -5,6 +5,7 @@ const axios = require('axios');
 require('dotenv').config({ path: path.join(__dirname, '../../variables.env') });
 
 const BASE_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?';
+const DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json?';
 const API_KEY = process.env.GMAPS_API_KEY;
 
 const urlBuilder = query => {
@@ -12,7 +13,16 @@ const urlBuilder = query => {
   return `${BASE_URL}${query}&fields=photos,formatted_address,name&key=${API_KEY}`;
 };
 
-exports.searchGoogle = async (searchArea, placeCategory) => {
+const detailsUrlBuild = placeId => {
+  // * Formats a details based URL
+  return `${DETAILS_URL}placeid=${placeId}&fields=name,formatted_address,formatted_phone_number,website&key=${API_KEY}`;
+};
+
+exports.searchGoogle = async (
+  searchArea,
+  placeCategory,
+  getDetails = false
+) => {
   // * Formats a Query from search terms
   const searchTerm = `${placeCategory} in ${searchArea}`;
   const formattedSearchTerm = searchTerm.split(' ').join('+');
@@ -26,7 +36,15 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
         method: 'get'
       })
       .then(res => {
-        resolve(res.data);
+        if (getDetails) {
+          const newResults = res.data.results.map(async result => {
+            return await getMoreDetails(result);
+          });
+          res.data.results = newResults;
+          resolve(res.data);
+        } else {
+          resolve(res.data);
+        }
       })
       .catch(err => {
         reject(err);
@@ -34,6 +52,18 @@ exports.searchGoogle = async (searchArea, placeCategory) => {
   });
 };
 
-exports.searchMoreDetails = async results => {
-  const { place_id } = results;
+getMoreDetails = async result => {
+  const { place_id } = result;
+  const finalPostUrl = detailsUrlBuild(place_id);
+  return new Promise((resolve, reject) => {
+    axios
+      .get(finalPostUrl, { method: 'get' })
+      .then(res => {
+        console.log(res);
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 };
