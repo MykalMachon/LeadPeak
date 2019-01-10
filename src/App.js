@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import './global.css';
 import ResultsList from './components/ResultsList';
-import Settings from './components/Settings';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -12,7 +11,8 @@ class App extends Component {
     this.state = {
       results: [],
       inSearch: false,
-      searchComplete: false
+      searchComplete: false,
+      moreDetails: false
     };
 
     // ? IPC LISTENERS : LISTENS FOR DATA FROM THE MAIN THREAD
@@ -24,7 +24,7 @@ class App extends Component {
         results: results,
         nextPageToken: next_page_token
       });
-
+      // Reflect the query completion in the UI
       this.searchSuccess();
     });
 
@@ -151,7 +151,50 @@ class App extends Component {
                   </button>
                 </div>
                 <div className="control">
-                  <Settings />
+                  <div className="dropdown is-right" id="dropdown">
+                    <div className="dropdown-trigger">
+                      <button
+                        className="button is-light"
+                        onClick={event => {
+                          event.preventDefault();
+                          document
+                            .querySelector('#dropdown')
+                            .classList.toggle('is-active');
+                        }}
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu2"
+                      >
+                        <span>Settings</span>
+                      </button>
+                    </div>
+                    <div
+                      className="dropdown-menu"
+                      id="dropdown-menu2"
+                      role="menu"
+                    >
+                      <div className="dropdown-content">
+                        <div className="dropdown-item">
+                          <label className="checkbox">
+                            <input
+                              type="checkbox"
+                              onClick={() => {
+                                this.setState({
+                                  moreDetails: !this.state.moreDetails
+                                });
+                              }}
+                            />{' '}
+                            Get Lead Details
+                          </label>
+                        </div>
+                        <hr className="dropdown-divider" />
+                        <div className="dropdown-item">
+                          <p>
+                            Designed by <br /> <code>Mykal Machon</code>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

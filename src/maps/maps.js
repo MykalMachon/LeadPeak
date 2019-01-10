@@ -35,13 +35,15 @@ exports.searchGoogle = async (
       .get(finalPostUrl, {
         method: 'get'
       })
-      .then(res => {
+      .then(async res => {
         if (getDetails) {
           const newResults = res.data.results.map(async result => {
             return await getMoreDetails(result);
           });
-          res.data.results = newResults;
-          resolve(res.data);
+          Promise.all(newResults).then(resolvedResults => {
+            res.data.results = resolvedResults;
+            resolve(res.data);
+          });
         } else {
           resolve(res.data);
         }
@@ -59,8 +61,7 @@ getMoreDetails = async result => {
     axios
       .get(finalPostUrl, { method: 'get' })
       .then(res => {
-        console.log(res);
-        resolve(res);
+        resolve(res.data.result);
       })
       .catch(err => {
         reject(err);

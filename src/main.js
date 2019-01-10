@@ -39,8 +39,8 @@ app.on('activate', function() {
 
 // * On Map Data Request from the renderer call the Google API for maps data
 ipcMain.on('map-data-req', (event, arg) => {
-  const { searchArea, placeCategory } = arg;
-  maps.searchGoogle(searchArea, placeCategory).then(data => {
+  const { searchArea, placeCategory, moreDetails } = arg;
+  maps.searchGoogle(searchArea, placeCategory, moreDetails).then(data => {
     const resultsObj = {
       results: data.results,
       next_page_token: data.next_page_token || undefined
