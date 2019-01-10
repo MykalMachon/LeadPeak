@@ -51,8 +51,10 @@ ipcMain.on('map-data-req', (event, arg) => {
 
 // * On Export Request convert data to CSV and select a save location
 ipcMain.on('export-data-req', (event, arg) => {
-  const { results } = arg;
-  const csvData = exportData.exportBasicData(results);
+  const { results, moreDetails } = arg;
+  const csvData = moreDetails
+    ? exportData.exportDetailedData(results)
+    : exportData.exportBasicData(results);
   // Allows the user to select where to save
   const saveDirectory = dialog.showSaveDialog(mainWindow, {
     title: 'Export Search Data',
