@@ -4,6 +4,7 @@ const path = require('path');
 
 // ? IMPORT HELPER FILES
 const maps = require('./maps/maps');
+const hunter = require('./services/hunter');
 const exportData = require('./export/export');
 
 let mainWindow;
@@ -16,7 +17,7 @@ function createWindow() {
   });
 }
 
-// ? APP EVENT LISTENERS : LISTENS FOR ACTIONS ON THE APPLICATION WINDO
+// ? APP EVENT LISTENERS : LISTENS FOR ACTIONS ON THE APPLICATION WINDOW
 
 // * On initial Load, create the initial window
 app.on('ready', createWindow);
