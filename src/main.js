@@ -4,7 +4,7 @@ const path = require('path');
 
 // ? IMPORT HELPER FILES
 const maps = require('./maps/maps');
-const hunter = require('./services/hunter');
+const emailExtractor = require('./maps/emailExtractor');
 const exportData = require('./export/export');
 
 let mainWindow;
@@ -40,22 +40,39 @@ app.on('activate', function() {
 
 // * On Map Data Request from the renderer call the Google API for maps data
 ipcMain.on('map-data-req', (event, arg) => {
-  const { searchArea, placeCategory, moreDetails } = arg;
-  maps.searchGoogle(searchArea, placeCategory, moreDetails).then(data => {
-    const resultsObj = {
-      results: data.results,
-      next_page_token: data.next_page_token || undefined
-    };
+  const { searchArea, placeCategory, moreDetails, getEmails } = arg;
+  maps.searchGoogle(searchArea, placeCategory, moreDetails).then(async data => {
+    let resultsObj;
+    if (getEmails) {
+      const mergedResults = await emailExtractor.getEmailsFromGMapRes(
+        data.results,
+        true
+      );
+      resultsObj = {
+        results: mergedResults,
+        next_page_token: data.next_page_token || undefined
+      };
+    } else {
+      resultsObj = {
+        results: data.results,
+        next_page_token: data.next_page_token || undefined
+      };
+    }
     mainWindow.webContents.send('maps-data-res', resultsObj);
   });
 });
 
 // * On Export Request convert data to CSV and select a save location
 ipcMain.on('export-data-req', (event, arg) => {
-  const { results, moreDetails } = arg;
-  const csvData = moreDetails
-    ? exportData.exportDetailedData(results)
-    : exportData.exportBasicData(results);
+  const { results, moreDetails, getEmails } = arg;
+  let csvData;
+  if (moreDetails) {
+    csvData = exportData.exportDetailedData(results);
+  } else if (moreDetails && getEmails) {
+    csvData = exportData.exportDetailedData(results);
+  } else {
+    csvData = exportData.exportDetailedDataWithEmail(results);
+  }
   // Allows the user to select where to save
   const saveDirectory = dialog.showSaveDialog(mainWindow, {
     title: 'Export Search Data',
