@@ -21,8 +21,7 @@ exports.searchDomain = async domain => {
   const queryUrl = `${domainSearchURL}${domain}${apiString}`;
   const req = await axios.get(queryUrl, { method: `get` });
   const res = await req;
-  console.log(res.data.data.emails);
-  return res;
+  return res.data.data.emails;
 };
 
 /**
