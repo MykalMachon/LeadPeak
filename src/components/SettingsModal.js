@@ -40,7 +40,36 @@ export default class SettingsModal extends Component {
               onClick={this.closeModal}
             />
           </header>
-          <section className="modal-card-body">{/* Content ... */}</section>
+          <section className="modal-card-body">
+            <div className="field">
+              <h2>API Keys and Credentials</h2>
+              <p>
+                These keys are used for getting the location information (google
+                maps api key) and the email information (hunter.io api key)
+              </p>
+            </div>
+
+            <div className="field">
+              <label className="label">Google Maps API Key</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Paste your API Key here..."
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Hunter.io API Key</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Paste your API Key here..."
+                />
+              </div>
+            </div>
+          </section>
           <footer className="modal-card-foot">
             <button className="button is-primary">Save changes</button>
             <button className="button is-light" onClick={this.closeModal}>
