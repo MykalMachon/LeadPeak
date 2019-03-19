@@ -12,7 +12,8 @@ class App extends Component {
       results: [],
       inSearch: false,
       searchComplete: false,
-      moreDetails: false
+      moreDetails: false,
+      getEmails: false
     };
 
     // ? IPC LISTENERS : LISTENS FOR DATA FROM THE MAIN THREAD
@@ -183,7 +184,21 @@ class App extends Component {
                                 });
                               }}
                             />{' '}
-                            Get Lead Details
+                            Get Lead Website
+                          </label>
+                        </div>
+                        <div className="dropdown-item">
+                          <label className="checkbox">
+                            <input
+                              disabled={!this.state.moreDetails}
+                              type="checkbox"
+                              onClick={() => {
+                                this.setState({
+                                  getEmails: !this.state.getEmails
+                                });
+                              }}
+                            />{' '}
+                            Get Lead Emails
                           </label>
                         </div>
                         <hr className="dropdown-divider" />
