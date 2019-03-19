@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const settings = require('electron-settings');
 
 // ? IMPORT HELPER FILES
 const maps = require('./maps/maps');
@@ -68,9 +69,7 @@ ipcMain.on('export-data-req', (event, arg) => {
   let csvData;
   if (moreDetails && !getEmails) {
     csvData = exportData.exportDetailedData(results);
-    console.log('get more details');
   } else if (moreDetails && getEmails) {
-    console.log('get more details and emails');
     csvData = exportData.exportDetailedDataWithEmail(results);
   } else {
     csvData = exportData.exportBasicData(results);
@@ -92,4 +91,21 @@ ipcMain.on('export-data-req', (event, arg) => {
     }
   });
   mainWindow.webContents.send('export-data-res', true);
+});
+
+ipcMain.on('api-key-req', (event, arg) => {
+  const currApiKeys = {
+    gmapsKey: settings.get('apiKeys.gmapsKey'),
+    hunterioKey: settings.get('apiKeys.hunterioKey')
+  };
+  mainWindow.webContents.send('api-key-res', currApiKeys);
+});
+
+ipcMain.on('api-key-update-req', (event, arg) => {
+  const { gmapsKey, hunterioKey } = arg;
+  settings.set('apiKeys', {
+    gmapsKey,
+    hunterioKey
+  });
+  mainWindow.webContents.send('api-key-update-res', true);
 });

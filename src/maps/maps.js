@@ -2,11 +2,11 @@
 // * Will use the Google Maps API.
 const path = require('path');
 const axios = require('axios');
-require('dotenv').config({ path: path.join(__dirname, '../../variables.env') });
+const settings = require('electron-settings');
 
 const BASE_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?';
 const DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json?';
-const API_KEY = process.env.GMAPS_API_KEY;
+const API_KEY = settings.get('apiKeys.gmapsKey');
 
 const urlBuilder = query => {
   // * Formats a simple Query URL for the places API

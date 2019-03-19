@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './global.css';
 import ResultsList from './components/ResultsList';
+import SettingsModal from './components/SettingsModal';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -13,7 +14,8 @@ class App extends Component {
       inSearch: false,
       searchComplete: false,
       moreDetails: false,
-      getEmails: false
+      getEmails: false,
+      settingsModalOpen: false
     };
 
     // ? IPC LISTENERS : LISTENS FOR DATA FROM THE MAIN THREAD
@@ -87,6 +89,14 @@ class App extends Component {
   render() {
     return (
       <div>
+        <SettingsModal
+          isActive={this.state.settingsModalOpen}
+          onClick={() => {
+            this.setState({
+              settingsModalOpen: !this.state.settingsModalOpen
+            });
+          }}
+        />
         <section
           className="section"
           style={{ backgroundColor: 'hsl(0, 0%, 96%)' }}
@@ -143,7 +153,7 @@ class App extends Component {
               <div className="field is-grouped">
                 <div className="control">
                   <button
-                    className="button is-text"
+                    className="button is-light"
                     id="export"
                     onClick={this.exportData}
                     disabled={!this.state.searchComplete}
@@ -151,6 +161,7 @@ class App extends Component {
                     Export Data
                   </button>
                 </div>
+
                 <div className="control">
                   <div className="dropdown is-right" id="dropdown">
                     <div className="dropdown-trigger">
@@ -165,7 +176,7 @@ class App extends Component {
                         aria-haspopup="true"
                         aria-controls="dropdown-menu2"
                       >
-                        <span>Settings</span>
+                        <span>Details</span>
                       </button>
                     </div>
                     <div
@@ -203,13 +214,23 @@ class App extends Component {
                         </div>
                         <hr className="dropdown-divider" />
                         <div className="dropdown-item">
-                          <p>
-                            Designed by <br /> <code>Mykal Machon</code>
-                          </p>
+                          <p>These use Google Maps & Hunter.io</p>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="control">
+                  <button
+                    className="button is-light"
+                    onClick={() => {
+                      this.setState({
+                        settingsModalOpen: !this.state.settingsModalOpen
+                      });
+                    }}
+                  >
+                    Settings
+                  </button>
                 </div>
               </div>
             </div>
