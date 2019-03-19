@@ -89,7 +89,14 @@ class App extends Component {
   render() {
     return (
       <div>
-        <SettingsModal isActive={this.state.settingsModalOpen} />
+        <SettingsModal
+          isActive={this.state.settingsModalOpen}
+          onClick={() => {
+            this.setState({
+              settingsModalOpen: !this.state.settingsModalOpen
+            });
+          }}
+        />
         <section
           className="section"
           style={{ backgroundColor: 'hsl(0, 0%, 96%)' }}
@@ -217,7 +224,9 @@ class App extends Component {
                   <button
                     className="button is-light"
                     onClick={() => {
-                      this.setState({ settingsModalOpen: true });
+                      this.setState({
+                        settingsModalOpen: !this.state.settingsModalOpen
+                      });
                     }}
                   >
                     Settings

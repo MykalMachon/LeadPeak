@@ -69,9 +69,7 @@ ipcMain.on('export-data-req', (event, arg) => {
   let csvData;
   if (moreDetails && !getEmails) {
     csvData = exportData.exportDetailedData(results);
-    console.log('get more details');
   } else if (moreDetails && getEmails) {
-    console.log('get more details and emails');
     csvData = exportData.exportDetailedDataWithEmail(results);
   } else {
     csvData = exportData.exportBasicData(results);

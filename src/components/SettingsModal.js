@@ -8,7 +8,6 @@ class SettingsModal extends Component {
   constructor() {
     super();
     this.state = {
-      isActive: true,
       gmapsKey: '',
       hunterioKey: ''
     };
@@ -25,12 +24,12 @@ class SettingsModal extends Component {
   }
 
   componentWillReceiveProps() {
-    this.setState({
-      isOpen: this.props.isActive
-    });
-    ipcRenderer.send('api-key-req');
-    const modalDiv = document.querySelector('#modalContainer');
-    modalDiv.classList.add('is-active');
+    if (this.props.isActive) {
+      ipcRenderer.send('api-key-req');
+      const modalDiv = document.querySelector('#modalContainer');
+      modalDiv.classList.add('is-active');
+    } else {
+    }
   }
 
   handleInput = event => {

@@ -1,12 +1,13 @@
 // Require the appropriate resources
 const path = require('path');
 const axios = require('axios');
-require('dotenv').config({ path: path.join(__dirname, '../../variables.env') });
+const settings = require('electron-settings');
+
 // * URLs to be used throughout the functions
 const domainSearchURL = `https://api.hunter.io/v2/domain-search?domain=`;
 const searchNameAtDomainURL = `https://api.hunter.io/v2/email-finder?domain=`;
 const emailVerificationURL = `https://api.hunter.io/v2/email-verifier?email=`;
-const apiString = `&api_key=${process.env.HUNTER_API_KEY}`;
+const apiString = `&api_key=${settings.get('apiKeys.hunterioKey')}`;
 
 /**
  * * searchDomain
