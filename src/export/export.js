@@ -74,7 +74,7 @@ exports.exportDetailedData = data => {
   return csv;
 };
 
-exports.exportDetailedDataWithEmail = () => {
+exports.exportDetailedDataWithEmail = data => {
   const headings = [
     'First Name',
     'Last Name',

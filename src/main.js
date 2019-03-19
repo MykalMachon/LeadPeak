@@ -66,12 +66,14 @@ ipcMain.on('map-data-req', (event, arg) => {
 ipcMain.on('export-data-req', (event, arg) => {
   const { results, moreDetails, getEmails } = arg;
   let csvData;
-  if (moreDetails) {
+  if (moreDetails && !getEmails) {
     csvData = exportData.exportDetailedData(results);
+    console.log('get more details');
   } else if (moreDetails && getEmails) {
-    csvData = exportData.exportDetailedData(results);
-  } else {
+    console.log('get more details and emails');
     csvData = exportData.exportDetailedDataWithEmail(results);
+  } else {
+    csvData = exportData.exportBasicData(results);
   }
   // Allows the user to select where to save
   const saveDirectory = dialog.showSaveDialog(mainWindow, {

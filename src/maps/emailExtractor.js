@@ -50,11 +50,11 @@ exports.getEmailsFromGMapRes = (googleRes, mergeResults = false) => {
         results.forEach(emailRes => {
           if (emailRes.name == res.name) {
             newResult.emails = emailRes.emails;
+            console.log(newResult.emails);
           }
         });
         return newResult;
       });
-      console.log(newResults);
       resolve(newResults);
     } else {
       resolve(results);
