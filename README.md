@@ -1,6 +1,6 @@
-# Findr
+# Leadpeak
 
-### Getting Started With Findr
+### Getting Started With Leadpeak
 
 1. Install and Open the application and navigate to settings.
 2. Paste in your gmaps and hunter.io API Keys
