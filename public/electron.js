@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const settings = require('electron-settings');
+const isDev = require('electron-is-dev');
 
 // ? IMPORT HELPER FILES
 const maps = require('./maps/maps');
@@ -12,7 +13,9 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({ width: 953, height: 750, darkTheme: true });
-  mainWindow.loadURL('http://localhost:3000');
+  const devUrl = 'http://localhost:3000';
+  const prodUrl = `${path.join(__dirname, '../build/index.html')}`;
+  mainWindow.loadURL(devUrl);
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
@@ -59,6 +62,8 @@ ipcMain.on('map-data-req', (event, arg) => {
         next_page_token: data.next_page_token || undefined
       };
     }
+    console.log('Stuff is getting done!');
+    console.log('is stuff working?');
     mainWindow.webContents.send('maps-data-res', resultsObj);
   });
 });

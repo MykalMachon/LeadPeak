@@ -27,6 +27,7 @@ class App extends Component {
         results: results,
         nextPageToken: next_page_token
       });
+      console.log('recieved res from ipcRenderer');
       // Reflect the query completion in the UI
       this.searchSuccess();
     });
@@ -34,6 +35,7 @@ class App extends Component {
     // * On Export Completion from the main process this function is called
     ipcRenderer.on('export-data-res', (event, data) => {
       const submitButton = document.querySelector('#export');
+      console.log('recieved res from ipcRenderer');
       submitButton.classList.remove('is-loading');
     });
   }
