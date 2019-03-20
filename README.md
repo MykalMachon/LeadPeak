@@ -1,11 +1,16 @@
-# Findr
+# Leadpeak
 
-### Getting Started With Findr
-These steps should get you up and running with Findr...
+### Getting Started With Leadpeak
 
-1. Clone the Findr repository ( Master Branch )
-2. If you have Node installed, open the repository folder, and run ```npm install``` (if you dont have node, [you can Download it here](https://nodejs.org/en/))
-3. Get a google maps API key [from the google cloud platform](https://developers.google.com/maps/documentation/javascript/get-api-key)
-4. In the repo folder, create a file called variables.env, past the following into the file ```GMAPS_API_KEY = YOUR_API_KEY_GOES_HERE```
-5. Open two terminal windows: In the first window, run the command ```npm run start```. In the second window, run the command ```npm run electron```
-6. __Tada :tada:__ you're good to go! Lead hunt to your heart's content. 
+1. Install and Open the application and navigate to settings.
+2. Paste in your gmaps and hunter.io API Keys
+
+### Building Leadpeak for Distribution
+
+There are some custom steps that have to be completed currently to ensure leadpeak works on windows
+
+1. Run `npm run react-build`
+2. Enter the `index.html` file in the react build folder
+3. Ensure that all links are _relative links_ i.e './some/folder/help.txt' **not** '/some/folder/help.txt
+4. Run npm run `electron-build`
+5. See the dist folder for your executables
