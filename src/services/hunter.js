@@ -21,12 +21,15 @@ exports.searchDomain = async domain => {
   // Initialize the hunter instance using the given API key
   if (domain !== '' && domain !== null && domain !== undefined) {
     const queryUrl = `${domainSearchURL}${domain}${apiString}`;
-    const req = await axios.get(queryUrl, { method: `get` }).catch(err => {
-      console.log(queryUrl);
-      console.log(err);
-    });
-    const res = await req;
-    return res.data.data.emails;
+    try {
+      const req = await axios.get(queryUrl, { method: `get` });
+      const res = await req;
+      return res.data.data.emails;
+    } catch (e) {
+      console.error(`Hunter.io : Error for ${domain}`);
+      console.error(`See hunter.js`);
+      return {};
+    }
   } else {
     // If the domain is not valid, return an empty object
     return {};

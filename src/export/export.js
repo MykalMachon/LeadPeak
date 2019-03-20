@@ -17,19 +17,23 @@ exports.exportBasicData = data => {
   const rows = [];
   data.forEach(obj => {
     const locArr = obj.formatted_address.split(',');
-    rows.push({
-      'First Name': '',
-      'Last Name': '',
-      email: '',
-      'Phone Number': '',
-      'Mobile Number': '',
-      'Company Name': obj.name.trim(),
-      Street: locArr[0].trim(),
-      City: locArr[1].trim(),
-      Province: locArr[2].slice(0, 3).trim(),
-      Country: locArr[3].trim(),
-      'Postal Code': locArr[2].slice(3).trim()
-    });
+    try {
+      rows.push({
+        'First Name': '',
+        'Last Name': '',
+        email: '',
+        'Phone Number': '',
+        'Mobile Number': '',
+        'Company Name': obj.name.trim(),
+        Street: locArr[0].trim(),
+        City: locArr[1].trim(),
+        Province: locArr[2].slice(0, 3).trim(),
+        Country: locArr[3].trim(),
+        'Postal Code': locArr[2].slice(3).trim()
+      });
+    } catch (e) {
+      console.error('Unable to export a field due to it not a null value');
+    }
   });
   const jsonParser = new JsonToCSVParser({ headings });
   const csv = jsonParser.parse(rows);
@@ -54,20 +58,24 @@ exports.exportDetailedData = data => {
   const rows = [];
   data.forEach(obj => {
     const locArr = obj.formatted_address.split(',');
-    rows.push({
-      'First Name': '',
-      'Last Name': '',
-      email: '',
-      'Phone Number': obj.formatted_phone_number,
-      'Mobile Number': '',
-      'Company Name': obj.name.trim(),
-      Street: locArr[0].trim(),
-      City: locArr[1].trim(),
-      Province: locArr[2].slice(0, 3).trim(),
-      Country: locArr[3].trim(),
-      'Postal Code': locArr[2].slice(3).trim(),
-      Website: obj.website
-    });
+    try {
+      rows.push({
+        'First Name': '',
+        'Last Name': '',
+        email: '',
+        'Phone Number': obj.formatted_phone_number,
+        'Mobile Number': '',
+        'Company Name': obj.name.trim(),
+        Street: locArr[0].trim(),
+        City: locArr[1].trim(),
+        Province: locArr[2].slice(0, 3).trim(),
+        Country: locArr[3].trim(),
+        'Postal Code': locArr[2].slice(3).trim(),
+        Website: obj.website
+      });
+    } catch (e) {
+      console.error('Unable to export a field due to it not a null value');
+    }
   });
   const jsonParser = new JsonToCSVParser({ headings });
   const csv = jsonParser.parse(rows);
@@ -102,36 +110,44 @@ exports.exportDetailedDataWithEmail = data => {
         if (email.phone_number != null) {
           pn = email.phone_number;
         }
-        rows.push({
-          'First Name': fn || '',
-          'Last Name': ln || '',
-          email: email.value,
-          'Phone Number': obj.formatted_phone_number,
-          'Mobile Number': pn || '',
-          'Company Name': obj.name.trim(),
-          Street: locArr[0].trim(),
-          City: locArr[1].trim(),
-          Province: locArr[2].slice(0, 3).trim(),
-          Country: locArr[3].trim(),
-          'Postal Code': locArr[2].slice(3).trim(),
-          Website: obj.website
-        });
+        try {
+          rows.push({
+            'First Name': fn || '',
+            'Last Name': ln || '',
+            email: email.value || '',
+            'Phone Number': obj.formatted_phone_number || '',
+            'Mobile Number': pn || '',
+            'Company Name': obj.name.trim() || '',
+            Street: locArr[0].trim() || '',
+            City: locArr[1].trim() || '',
+            Province: locArr[2].slice(0, 3).trim() || '',
+            Country: locArr[3].trim() || '',
+            'Postal Code': locArr[2].slice(3).trim() || '',
+            Website: obj.website
+          });
+        } catch (e) {
+          console.error('Unable to export a field due to it not a null value');
+        }
       });
     }
-    rows.push({
-      'First Name': '',
-      'Last Name': '',
-      email: '',
-      'Phone Number': obj.formatted_phone_number,
-      'Mobile Number': '',
-      'Company Name': obj.name.trim(),
-      Street: locArr[0].trim(),
-      City: locArr[1].trim(),
-      Province: locArr[2].slice(0, 3).trim(),
-      Country: locArr[3].trim(),
-      'Postal Code': locArr[2].slice(3).trim(),
-      Website: obj.website
-    });
+    try {
+      rows.push({
+        'First Name': '',
+        'Last Name': '',
+        email: '',
+        'Phone Number': obj.formatted_phone_number || '',
+        'Mobile Number': '',
+        'Company Name': obj.name.trim() || '',
+        Street: locArr[0].trim() || '',
+        City: locArr[1].trim() || '',
+        Province: locArr[2].slice(0, 3).trim() || '',
+        Country: locArr[3].trim() || '',
+        'Postal Code': locArr[2].slice(3).trim() || '',
+        Website: obj.website
+      });
+    } catch (e) {
+      console.error('Unable to export a field due to it not a null value');
+    }
   });
   const jsonParser = new JsonToCSVParser({ headings });
   const csv = jsonParser.parse(rows);
