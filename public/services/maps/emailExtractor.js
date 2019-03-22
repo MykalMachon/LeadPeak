@@ -1,5 +1,5 @@
 // Require the appropriate resources
-const hunter = require('../services/hunter');
+const hunter = require('../hunter');
 // Regex for seperating base urls out of contrived / longform links
 const domainMinifyRegex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))/;
 
@@ -26,7 +26,7 @@ exports.getEmailsFromGMapRes = (googleRes, mergeResults = false) => {
             // Object to resolve with
             const obj = {
               name: result.name,
-              emails: emails.length > 0 ? emails : null
+              emails: emails.length > 0 ? emails : null,
             };
             resolve(obj);
           })
@@ -36,7 +36,7 @@ exports.getEmailsFromGMapRes = (googleRes, mergeResults = false) => {
           new Promise((resolve, reject) => {
             const obj = {
               name: result.name,
-              emails: null
+              emails: null,
             };
             resolve(obj);
           })

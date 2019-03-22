@@ -5,9 +5,9 @@ const settings = require('electron-settings');
 const isDev = require('electron-is-dev');
 
 // ? IMPORT HELPER FILES
-const maps = require('./maps/maps');
-const emailExtractor = require('./maps/emailExtractor');
-const exportData = require('./export/export');
+const maps = require('./services/maps/maps');
+const emailExtractor = require('./services/maps/emailExtractor');
+const exportData = require('./services/export/export');
 
 let mainWindow;
 
@@ -15,7 +15,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({ width: 953, height: 750, darkTheme: true });
   const devUrl = 'http://localhost:3000';
   const prodUrl = `${path.join(__dirname, '../build/index.html')}`;
-  mainWindow.loadURL(devUrl);
+  mainWindow.loadURL(isDev ? devUrl : prodUrl);
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
@@ -54,12 +54,12 @@ ipcMain.on('map-data-req', (event, arg) => {
       );
       resultsObj = {
         results: mergedResults,
-        next_page_token: data.next_page_token || undefined
+        next_page_token: data.next_page_token || undefined,
       };
     } else {
       resultsObj = {
         results: data.results,
-        next_page_token: data.next_page_token || undefined
+        next_page_token: data.next_page_token || undefined,
       };
     }
     console.log('Stuff is getting done!');
@@ -82,7 +82,7 @@ ipcMain.on('export-data-req', (event, arg) => {
   // Allows the user to select where to save
   const saveDirectory = dialog.showSaveDialog(mainWindow, {
     title: 'Export Search Data',
-    defaultPath: path.join(app.getPath('documents'), '/*/Findr Export.csv')
+    defaultPath: path.join(app.getPath('documents'), '/*/Findr Export.csv'),
   });
   if (!saveDirectory) {
     mainWindow.webContents.send('export-data-res', false);
@@ -101,7 +101,7 @@ ipcMain.on('export-data-req', (event, arg) => {
 ipcMain.on('api-key-req', (event, arg) => {
   const currApiKeys = {
     gmapsKey: settings.get('apiKeys.gmapsKey'),
-    hunterioKey: settings.get('apiKeys.hunterioKey')
+    hunterioKey: settings.get('apiKeys.hunterioKey'),
   };
   mainWindow.webContents.send('api-key-res', currApiKeys);
 });
@@ -110,7 +110,7 @@ ipcMain.on('api-key-update-req', (event, arg) => {
   const { gmapsKey, hunterioKey } = arg;
   settings.set('apiKeys', {
     gmapsKey,
-    hunterioKey
+    hunterioKey,
   });
   mainWindow.webContents.send('api-key-update-res', true);
 });
