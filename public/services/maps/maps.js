@@ -1,23 +1,22 @@
-// * Will Contain the API methods for google maps
-// * Will use the Google Maps API.
-const path = require('path');
 const axios = require('axios');
 const settings = require('electron-settings');
 
 const BASE_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?';
 const DETAILS_URL = 'https://maps.googleapis.com/maps/api/place/details/json?';
-const API_KEY = settings.get('apiKeys.gmapsKey');
 
-const urlBuilder = query => {
-  // * Formats a simple Query URL for the places API
-  return `${BASE_URL}${query}&fields=photos,formatted_address,name&key=${API_KEY}`;
-};
-
-const detailsUrlBuild = placeId => {
-  // * Formats a details based URL
-  return `${DETAILS_URL}placeid=${placeId}&fields=name,formatted_address,formatted_phone_number,website&key=${API_KEY}`;
-};
-
+/**
+ * * searchGoogle
+ *
+ * This function takes in a number of paramaters and queries the google maps API
+ * to get a list of places that fit the aforementioned paramters.
+ *
+ * @param searcArea the geographic area to search in
+ * @param placeCategory the category or descriptor for the type of business to find
+ * @param getDetails a boolean values that defines if the function should request
+ *                   detailed information
+ * @return results: a JSON object containing all of the results of the google
+ *         maps API query
+ */
 exports.searchGoogle = async (
   searchArea,
   placeCategory,
@@ -33,7 +32,7 @@ exports.searchGoogle = async (
   return new Promise((resolve, reject) => {
     axios
       .get(finalPostUrl, {
-        method: 'get'
+        method: 'get',
       })
       .then(async res => {
         if (getDetails) {
@@ -54,6 +53,56 @@ exports.searchGoogle = async (
   });
 };
 
+/**
+ * * getApiKey
+ *
+ * gets the api key from the electron settings store
+ *
+ * @return google maps API key
+ */
+const getApiKey = () => {
+  return settings.get('apiKeys.gmapsKey');
+};
+
+/**
+ * * urlBuilder
+ *
+ * Builds a standard google maps API query string
+ *
+ * @param query a place and type of establishment to query
+ *
+ * @return standardUrl : a standard google maps API query string
+ */
+const urlBuilder = query => {
+  // * Formats a simple Query URL for the places API
+  return `${BASE_URL}${query}&fields=photos,formatted_address,name&key=${getApiKey()}`;
+};
+
+/**
+ * * detailsUrlBuild
+ *
+ * Builds a detailed google maps API query string
+ *
+ * @param placeId a UID string that references a google maps location
+ *
+ * @return detailsUrl : a detailed google maps API query string
+ */
+const detailsUrlBuild = placeId => {
+  // * Formats a details based URL
+  return `${DETAILS_URL}placeid=${placeId}&fields=name,formatted_address,formatted_phone_number,website&key=${getApiKey()}`;
+};
+
+/**
+ * * getMoreDetails
+ *
+ * This function takes in the results from a searchGoogle function call and gets
+ * more details on the results
+ *
+ * @param result the results of a searchGoogle api call
+ *
+ * @return results: a JSON object containing all of the detailed results of the
+ *         google maps API query
+ */
 getMoreDetails = async result => {
   const { place_id } = result;
   const finalPostUrl = detailsUrlBuild(place_id);
