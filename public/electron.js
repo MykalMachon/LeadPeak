@@ -62,8 +62,6 @@ ipcMain.on('map-data-req', (event, arg) => {
         next_page_token: data.next_page_token || undefined,
       };
     }
-    console.log('Stuff is getting done!');
-    console.log('is stuff working?');
     mainWindow.webContents.send('maps-data-res', resultsObj);
   });
 });

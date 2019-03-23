@@ -13,6 +13,21 @@ export default class SearchBar extends Component {
       moreDetails: false,
       getEmails: false,
     };
+    // * On Map Data Response from the main process this function is called
+    ipcRenderer.on('maps-data-res', (event, data) => {
+      const { results, next_page_token } = data;
+      this.setState({
+        results: results,
+        nextPageToken: next_page_token,
+      });
+      this.searchSuccess();
+    });
+
+    // * On Export Completion from the main process this function is called
+    ipcRenderer.on('export-data-res', (event, data) => {
+      const submitButton = document.querySelector('#export');
+      submitButton.classList.remove('is-loading');
+    });
   }
 
   // ? COMPONENT SPECIFIC FUNCTIONS
@@ -33,6 +48,15 @@ export default class SearchBar extends Component {
     });
     // TODO Use IPC listener to make call to GoogleAPI
     ipcRenderer.send('map-data-req', this.state);
+  };
+
+  searchSuccess = () => {
+    this.setState({
+      inSearch: false,
+      searchComplete: true,
+    });
+    const submitButton = document.querySelector('#submit');
+    submitButton.classList.remove('is-loading');
   };
 
   // * Is called when the Cancel button is pressed, clears data and fields
