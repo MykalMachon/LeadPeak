@@ -22,6 +22,6 @@ There are some custom steps that have to be completed currently to ensure leadpe
 1. Run `npm run react-build`
 2. Enter the `index.html` file in the react build folder
 3. Ensure that all links are _relative links_ i.e `./some/folder/help.txt` **not** `/some/folder/help.txt`
-4. Run npm run `electron-build`
+4. Run `npm run electron-build`
 5. See the dist folder for the platforms executables files
 6. Code signing instructions will come down the line

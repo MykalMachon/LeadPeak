@@ -54,12 +54,12 @@ ipcMain.on('map-data-req', (event, arg) => {
       );
       resultsObj = {
         results: mergedResults,
-        next_page_token: data.next_page_token || undefined,
+        next_page_token: data.next_page_token || undefined
       };
     } else {
       resultsObj = {
         results: data.results,
-        next_page_token: data.next_page_token || undefined,
+        next_page_token: data.next_page_token || undefined
       };
     }
     mainWindow.webContents.send('maps-data-res', resultsObj);
@@ -80,7 +80,7 @@ ipcMain.on('export-data-req', (event, arg) => {
   // Allows the user to select where to save
   const saveDirectory = dialog.showSaveDialog(mainWindow, {
     title: 'Export Search Data',
-    defaultPath: path.join(app.getPath('documents'), '/*/Findr Export.csv'),
+    defaultPath: path.join(app.getPath('documents'), '/*/Findr Export.csv')
   });
   if (!saveDirectory) {
     mainWindow.webContents.send('export-data-res', false);
@@ -99,7 +99,7 @@ ipcMain.on('export-data-req', (event, arg) => {
 ipcMain.on('api-key-req', (event, arg) => {
   const currApiKeys = {
     gmapsKey: settings.get('apiKeys.gmapsKey'),
-    hunterioKey: settings.get('apiKeys.hunterioKey'),
+    hunterioKey: settings.get('apiKeys.hunterioKey')
   };
   mainWindow.webContents.send('api-key-res', currApiKeys);
 });
@@ -108,7 +108,7 @@ ipcMain.on('api-key-update-req', (event, arg) => {
   const { gmapsKey, hunterioKey } = arg;
   settings.set('apiKeys', {
     gmapsKey,
-    hunterioKey,
+    hunterioKey
   });
   mainWindow.webContents.send('api-key-update-res', true);
 });
