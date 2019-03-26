@@ -5,9 +5,9 @@ const settings = require('electron-settings');
 const isDev = require('electron-is-dev');
 
 // ? IMPORT HELPER FILES
-const maps = require('./maps/maps');
-const emailExtractor = require('./maps/emailExtractor');
-const exportData = require('./export/export');
+const maps = require('./services/maps/maps');
+const emailExtractor = require('./services/maps/emailExtractor');
+const exportData = require('./services/export/export');
 
 let mainWindow;
 
@@ -15,7 +15,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({ width: 953, height: 750, darkTheme: true });
   const devUrl = 'http://localhost:3000';
   const prodUrl = `${path.join(__dirname, '../build/index.html')}`;
-  mainWindow.loadURL(devUrl);
+  mainWindow.loadURL(isDev ? devUrl : prodUrl);
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
@@ -62,8 +62,6 @@ ipcMain.on('map-data-req', (event, arg) => {
         next_page_token: data.next_page_token || undefined
       };
     }
-    console.log('Stuff is getting done!');
-    console.log('is stuff working?');
     mainWindow.webContents.send('maps-data-res', resultsObj);
   });
 });
