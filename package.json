@@ -41,7 +41,7 @@
     "url": "https://github.com/mykalmachon/findr/issues"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "bulma": "^0.7.2",
     "dotenv": "^6.2.0",
     "electron-is-dev": "^1.0.1",
@@ -50,13 +50,13 @@
     "json2csv": "^4.3.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^3.0.1",
     "styled-components": "^3.4.5",
     "tunnel-agent": "^0.6.0"
   },
   "devDependencies": {
     "electron": "^2.0.8",
-    "electron-builder": "^20.39.0",
+    "electron-builder": "^20.44.4",
     "typescript": "^3.3.4000"
   },
   "browserslist": [
