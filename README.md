@@ -1,27 +1,48 @@
 # Leadpeak
 
-### What is Leadpeak
+## What is Leadpeak
 
-Leadpeak is a desktop application that allows for rapid lead generation based on location and business type.
-This is especially useful when trying to generate leads for a physical goods or service company : For example,
-a house keeping or janitorial services company that only serves a specific region.
+Leadpeak is a desktop application that allows for rapid lead collection and aggregation based on location and business type.
+This is especially useful when trying to collect leads for physical goods or service company.
 
-To use Leadpeak you'll need to have both a google maps API key and a Hunter.io API key.
-Both of which can be gotten for free as of right now.
+For example: 
 
-### Getting Started With Leadpeak
+- A janitorial services company looking for local restaurants that they can provide their services to
+- A print shop looking to reach out to nearby notaries or lawyers offices to provide services
+- A food delivery service looking for restaurants that would like their food delivered through their service.
+- etc, etc, etc.
+
+## Getting Started With Leadpeak
+
+You can get the most recent release (here)[https://github.com/MykalMachon/LeadPeak/releases]
 
 1. Install and Open the application and navigate to settings.
 2. Paste in your gmaps and hunter.io API Keys
-3. Get to peaking for leads :tada:
+3. Get to collecting local leads :tada:
 
-### Building Leadpeak for Distribution
+## Prerequisites
 
-There are some custom steps that have to be completed currently to ensure leadpeak works on windows
+There are a few things you should know before you start using leadpeak to your leads...
 
-1. Run `npm run react-build`
-2. Enter the `index.html` file in the react build folder
-3. Ensure that all links are _relative links_ i.e `./some/folder/help.txt` **not** `/some/folder/help.txt`
-4. Run `npm run electron-build`
-5. See the dist folder for the platforms executables files
-6. Code signing instructions will come down the line
+### Credentials & Accounts
+
+To use Leadpeak you'll need to have both a google maps API key and a Hunter.io API key.
+Both of these can be acquired for free under relatively gracious free plans. 
+
+- (Hunter.io signup)[https://hunter.io/users/sign_up]
+- (Google Maps API key instructions)[https://developers.google.com/maps/documentation/javascript/get-api-key]
+
+### Legality & Additional Knowledge
+
+All information that leadpeak collects and aggregates is 100% legally obtained and is collected from the public internet (either the google maps database or public websites where hunter.io has found further contact information).
+
+That said, **It's important that when using leadpeak, and the data it collects, that you're aware of the spam and cold emailing laws in your country/region**. Leadpeak is meant to be used to automate the process of prospecting leads in your local area, not for mass spam campaigns and/or other illegal activity. 
+
+Links to spam and cold emailing laws :
+
+- [Canadian Anti-Spam Reference (CAD)](https://www.fightspam.gc.ca/eic/site/030.nsf/eng/home) 
+- [American CAN-SPAM Summary (USD)](https://www.ftc.gov/tips-advice/business-center/guidance/can-spam-act-compliance-guide-business)
+- [GDPR regulation summary (European Union](https://gdpr-info.eu/issues/email-marketing/)
+
+*These links are not meant to be legal advice, if you have genuine concerns about the legality and laws regarding cold emailing and email marketing in your country/region, contact a lawyer familiar with the applicable laws.*
+
