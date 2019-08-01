@@ -14,7 +14,7 @@ For example:
 
 ## Getting Started With Leadpeak
 
-You can get the most recent release (here)[https://github.com/MykalMachon/LeadPeak/releases]
+You can get the most recent release [here](https://github.com/MykalMachon/LeadPeak/releases)
 
 1. Install and Open the application and navigate to settings.
 2. Paste in your gmaps and hunter.io API Keys
@@ -29,8 +29,8 @@ There are a few things you should know before you start using leadpeak to your l
 To use Leadpeak you'll need to have both a google maps API key and a Hunter.io API key.
 Both of these can be acquired for free under relatively gracious free plans. 
 
-- (Hunter.io signup)[https://hunter.io/users/sign_up]
-- (Google Maps API key instructions)[https://developers.google.com/maps/documentation/javascript/get-api-key]
+- [Hunter.io signup](https://hunter.io/users/sign_up)
+- [Google Maps API key instructions](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 ### Legality & Additional Knowledge
 
