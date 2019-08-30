@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import './global.css';
 import ResultsList from './components/ResultsList';
@@ -6,60 +6,51 @@ import SearchBar from './components/SearchBar';
 
 const { ipcRenderer } = window.require('electron');
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      results: [],
-      settingsModalOpen: false,
-    };
+const App = () => {
+  const [resultsData, setResultsData] = useState({
+    results: [],
+    nextPageToken: null,
+  });
 
-    // ? IPC LISTENERS : LISTENS FOR DATA FROM THE MAIN THREAD
+  const [isSearchCompleted, setIsSearchCompleted] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // * On Map Data Response from the main process this function is called
-    ipcRenderer.on('maps-data-res', (event, data) => {
-      const { results, next_page_token } = data;
-      this.setState({
-        results: results,
-        nextPageToken: next_page_token,
-      });
-      // Reflect the query completion in the UI
-      this.searchSuccess();
-    });
+  // ? IPC LISTENERS : LISTENS FOR DATA FROM THE MAIN THREAD
 
-    // * On Export Completion from the main process this function is called
-    ipcRenderer.on('export-data-res', (event, data) => {
-      const submitButton = document.querySelector('#export');
-      submitButton.classList.remove('is-loading');
-    });
-  }
+  // * On Map Data Response from the main process this function is called
+  ipcRenderer.on('maps-data-res', (event, data) => {
+    const { results, next_page_token } = data;
+    setResultsData({ results: results, nextPageToken: next_page_token });
+    searchSuccess();
+  });
+
+  // * On Export Completion from the main process this function is called
+  ipcRenderer.on('export-data-res', (event, data) => {
+    const submitButton = document.querySelector('#export');
+    submitButton.classList.remove('is-loading');
+  });
 
   // * Is called when the Cancel button is pressed, clears data and fields
-  searchSuccess = () => {
-    this.setState({
-      inSearch: false,
-      searchComplete: true,
-    });
+  const searchSuccess = () => {
+    setIsSearchCompleted(true);
     const submitButton = document.querySelector('#submit');
     submitButton.classList.remove('is-loading');
   };
 
-  render() {
-    return (
-      <div>
-        <SearchBar />
-        <section className="section">
-          <div className="container">
-            <ResultsList
-              results={this.state.results}
-              nextPageToken={this.state.nextPageToken}
-              loading={this.state.inSearch}
-            />
-          </div>
-        </section>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <SearchBar isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <section className='section'>
+        <div className='container'>
+          <ResultsList
+            results={resultsData.results}
+            nextPageToken={resultsData.nextPageToken}
+            loading={isSearchCompleted === false}
+          />
+        </div>
+      </section>
+    </div>
+  );
+};
 
 export default App;

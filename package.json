@@ -48,9 +48,9 @@
     "electron-settings": "^3.2.0",
     "hunterio": "^1.0.0",
     "json2csv": "^4.3.2",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-scripts": "^3.0.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "^3.1.1",
     "styled-components": "^3.4.5",
     "tunnel-agent": "^0.6.0"
   },
